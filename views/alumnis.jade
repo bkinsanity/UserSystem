@@ -1,0 +1,30 @@
+extends layout
+
+block content
+	h1.text-center All Alumni
+	form(method='post', action='/alumnis/create')
+		.input-group
+			input.form-control(type='text', placeholder='What do you have to do?', name='content')
+			span.input-group-btn
+				input.btn.btn-success(type='submit', value='Add alumni')
+	for alumni in alumnis
+		.panel.panel-default
+			.panel-body
+				label  #{alumni.name}
+				div
+					table
+						thead
+							th(style="width:200px") Email 
+							th(style="width:100px") Phone
+							th(style="width:200px") Department
+							th(style="width:100px") Graduate Year
+						tbody
+							tr
+								td #{alumni.email}
+								td #{alumni.phone_number}
+								td #{alumni.department}   
+								td #{alumni.graduate_year} 
+					form(action='/alumnis/destroy/#{alumni._id}', method='post')
+						input.btn.btn-danger.pull-right(type='submit', value='Delete')
+					form(action='/alumnis/#{alumni._id}', method='get')
+						input.btn.btn-success.pull-right(type='submit', value='Edit')
