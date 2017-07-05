@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-   // Todo = mongoose.model('Todo');
 
 var AlumniSchema = mongoose.Schema({
 	content: {
@@ -40,10 +39,19 @@ module.exports = {
             res.render('alumni', { alumni: alumni[0] })
         });
     },
+    createForm: function(req, res){
+        console.log("creating...");
+        res.render('createAlumni');
+    },
     create: function(req, res){
+        console.log("creating...");
         var todoContent = req.body.content;
         // create todo
-        Alumni.create({ content: todoContent }, function(err, alumni){
+        Alumni.create({ name: req.body.name,
+                email: req.body.email,
+                graduate_year: req.body.graduate_year,
+                phone_number: req.body.phone_number,
+                department: req.body.department }, function(err, alumni){
             if(err) res.render('error', { error: 'Error creating your alumni :('})
             // reload collection
             res.redirect('/alumnis');

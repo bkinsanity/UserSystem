@@ -2,11 +2,11 @@ extends layout
 
 block content
 	h1.text-center All Alumni
-	form(method='post', action='/alumnis/create')
+	form(method='get', action='/alumnis/create/alumni')
 		.input-group
-			input.form-control(type='text', placeholder='What do you have to do?', name='content')
-			span.input-group-btn
-				input.btn.btn-success(type='submit', value='Add alumni')
+		span.input-group-btn
+			input.btn.btn-success.pull-right(type='submit', value='Add New Alumni')
+
 	for alumni in alumnis
 		.panel.panel-default
 			.panel-body
