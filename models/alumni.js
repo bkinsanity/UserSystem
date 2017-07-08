@@ -27,28 +27,40 @@ module.exports = {
     all: function(req, res){
         console.log('we are in Alumni.all');  
         var perPage = 40
-            , page = req.param('page') > 0 ? req.param('page') : 0;
+            , page = req.param('page') > 0 ? req.param('page') : 0
+            , department = req.param('department')
+            , graduate_year = req.param('graduate_year');
 
-            res.locals.createPagination = function (pages, page) {
-                var url = require('url')
-                , qs = require('querystring')
-                , params = qs.parse(url.parse(req.url).query)
-                , str = ''
+        if (typeof page === 'string')
+            page = parseInt(page);
+        
+        var searchOption = {};
+        if( department !== undefined && department.length > 0)
+            searchOption.department = department;
+            
+        if( graduate_year !== undefined && graduate_year.length > 0)
+            searchOption.graduate_year = graduate_year;
+                           
+        res.locals.createPagination = function (pages, page) {
+            var url = require('url')
+            , qs = require('querystring')
+            , params = qs.parse(url.parse(req.url).query)
+            , str = ''
 
-                params.page = 0
-                var clas = "active";
-                str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">第一頁</a></li>';
-                params.page = page == 0 ? 0 : page - 1;
-                str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">上一頁</a></li>';
-                params.page = page == pages - 1 ? pages - 1 : page + 1;
-                str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">下一頁</a></li>';
-                params.page = pages;
-                str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">最後一頁</a></li>'
-
-                return str
-            }
+            params.page = 0
+            var clas = "active";
+            str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">第一頁</a></li>';
+            params.page = page == 0 ? 0 : page - 1;
+            str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">上一頁</a></li>';
+            params.page = page == pages - 1 ? pages - 1 : page + 1;
+            str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">下一頁</a></li>';
+            params.page = pages;
+            str += '<li class="'+clas+'"><a href="?'+qs.stringify(params)+'">最後一頁</a></li>'
+            return str
+        }
+        
         Alumni
-            .find()
+            .find(searchOption)
             //.select('email')
             .limit(perPage)
             .skip(perPage * page)

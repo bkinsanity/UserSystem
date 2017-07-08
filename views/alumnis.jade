@@ -6,7 +6,17 @@ block content
     .input-group
     span.input-group-btn
       input.btn.btn-success.pull-right(type='submit', value='Add New Alumni')
-  
+
+  form(method='get', action='/alumnis/')
+    .form-group
+    label Department
+    input.form-control(name='department', type='text', placeholder='Enter the department you study')
+    .form-group
+    label Graduate Year
+    input.form-control(name='graduate_year', type='text', placeholder='Enter which year you graduated')
+    h4
+      input(type='submit', value='Search').btn.btn-primary.btn-lg 
+
   if (pages > 1)
     .pagination
       ul
