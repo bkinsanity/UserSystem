@@ -1,0 +1,62 @@
+extends ../layout
+
+block content
+	form(method='post', action='/alumni/edit/#{alumni._id}', value='#{alumni}')
+		.form-group
+		label 中文姓名
+		input.form-control(name='chinese_name', type='text', placeholder='Enter Name', value='#{alumni.chinese_name}')
+		.form-group
+		label 英文姓名
+		input.form-control(name='english_name', type='text', placeholder='Enter Name', value='#{alumni.english_name}')
+		.form-group
+		label Email
+		input.form-control(name='email', type='email', placeholder='Enter Email', value='#{alumni.email}')
+		.form-group
+		label 性別
+		h6
+		select(name='gender')
+			- repeation=['男', '女']
+			each item in repeation
+				if alumni.gender == item
+					option(selected="true") #{item}
+				else
+					option #{item}
+
+		.form-group
+		label 畢業清華
+		h6
+		select(name='place')
+			- repeation=['北京', '新竹']
+			each item in repeation
+				if alumni.place == item
+					option(selected="true") #{item}
+				else
+					option #{item}
+
+		.form-group
+		label 系所
+		h6
+		select(name="department")
+			each option in department_list
+				if alumni.department == option
+					option(selected="true") #{option}
+				else
+					option #{option}
+
+		.form-group
+		label 畢業年份
+		h6
+		select(name="graduate_year")
+			each option in year_list
+				if alumni.graduate_year == option
+					option(selected="true") #{option}
+				else
+					option #{option}
+
+		.form-group
+		label 電話
+		input.form-control(name='phone_number', type='text', placeholder='Enter your phone number', value='#{alumni.phone_number}')
+		h1
+			if (user.isSuperUser)
+				input(type='submit', value='Update').btn.btn-primary.btn-lg
+			a(href='/alumni').btn.btn-default.btn-lg Back

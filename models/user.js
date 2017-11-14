@@ -5,57 +5,49 @@ mongoose.connect('mongodb://localhost/nodeauth');
 
 var db = mongoose.connection;
 
-// User Schema
+// Definition of User schema
 var UserSchema = mongoose.Schema({
-	username: {
-		type: String,
-		index: true
-	},
-	password: {
-		type: String
-	},
-	email: {
-		type: String
-	},
-	name: {
-		type: String
-	},
-	profileimage:{
-		type: String
-	},
-	resetPasswordToken: String,
-  	resetPasswordExpires: Date
+	username: {type: String},
+	email: {type: String},
+	password: {type: String},
+	resetPasswordToken: {type: String},
+  resetPasswordExpires: {type: Date},
+	verifyEmailToken: {type: String},
+	verifyEmailExpires: {type: Date},
+	isSuperUser: {type: Boolean},
+	isActive: {type: Boolean}
 });
 
 var User = module.exports = mongoose.model('User', UserSchema);
-
-module.exports.getUserById = function(id, callback){
+module.exports.getUserById = function(id, callback) {
 	User.findById(id, callback);
-}
-
-module.exports.getUserByUsername = function(username, callback){
-	var query = {username: username};
-	User.findOne(query, callback);
-}
-
-module.exports.comparePassword = function(candidatePassword, hash, callback){
-	bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
-    	callback(null, isMatch);
+};
+module.exports.getUserByVerifyEmailToken = function(verifyEmailToken, callback) {
+	User.findOne({verifyEmailToken}, callback);
+};
+module.exports.getUserByUsername = function(username, callback) {
+	User.findOne({username}, callback);
+};
+module.exports.getUserByEmail = function(email, callback) {
+	User.findOne({email}, callback);
+};
+module.exports.comparePassword = function(candidatePassword, hash, callback) {
+	bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
+  	callback(null, isMatch);
 	});
-}
-
+};
 module.exports.createUser = function(newUser, callback) {
-	console.log(newUser.username);
-	db.collection('users').find({username:newUser.username}).count().then((count) => {
-		if (count > 0)
-			callback("Username exists");
-		else
-			bcrypt.genSalt(10, function(err, salt) {
-    			bcrypt.hash(newUser.password, salt, function(err, hash) {
-   					newUser.password = hash;
-   					newUser.save(callback);
+	db.collection('users').find({username: newUser.username}).count().then((count) => {
+		if (count > 0) {
+			callback("User name exists, please choose a new one");
+		} else {
+			bcrypt.genSalt(10, (err, salt) => {
+    		bcrypt.hash(newUser.password, salt, (err, hash) => {
+   				newUser.password = hash;
+   				newUser.save(callback);
     		});
-		});
+			});
+		}
 	}, (err) => {
 		console.log('Unable to fetch users', err);
 	});

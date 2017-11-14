@@ -18,8 +18,9 @@ var flash = require('connect-flash');
 var db = mongoose.connection;
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var alumniRouter = require('./routes/alumnis');
+var usersRouter = require('./routes/userRouter');
+var alumniRouter = require('./routes/alumniRouter');
+var updateAlumniRouter = require('./routes/updateAlumniRouter');
 var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -76,8 +77,8 @@ app.get('*', function(req, res, next){
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/alumnis', alumniRouter);
-
+app.use('/alumni', alumniRouter);
+app.use('/', updateAlumniRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

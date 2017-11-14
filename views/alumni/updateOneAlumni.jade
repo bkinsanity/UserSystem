@@ -1,0 +1,62 @@
+extends ../layout
+
+block content
+	if errors
+		each error, i in errors
+			div.alert.alert-danger #{error.msg}
+
+	form(method='post', action='/update', value='#{data}' )
+		.form-group
+		label 中文姓名
+		input.form-control(name='chinese_name', type='text', placeholder='Enter Name', value='#{data.chinese_name}')
+		.form-group
+		label 英文姓名
+		input.form-control(name='english_name', type='text', placeholder='Enter Name', value='#{data.english_name}')
+		.form-group
+		label 性別
+		h6
+		select(name='gender')
+			- repeation=['男', '女']
+			each item in repeation
+				if data.gender == item
+					option(selected="true") #{item}
+				else
+					option #{item}
+
+		.form-group
+		label 畢業清華
+		h6
+		select(name='place')
+			- repeation=['北京', '新竹']
+			each item in repeation
+				if data.place == item
+					option(selected="true") #{item}
+				else
+					option #{item}
+
+		.form-group
+		label 系所
+		h6
+		select(name="department")
+			each option in department_list
+				if data.department == option
+					option(selected="true") #{option}
+				else
+					option #{option}
+
+		.form-group
+		label 畢業年份
+		h6
+		select(name="graduate_year")
+			each option in year_list
+				if data.graduate_year == option
+					option(selected="true") #{option}
+				else
+					option #{option}
+
+		.form-group
+		label 電話
+		input.form-control(name='phone_number', type='text', placeholder='Enter your phone number', value='#{data.phone_number}')
+		h1
+			input(type='submit', value='Update Alumni Data').btn.btn-primary.btn-lg
+			a(href='/').btn.btn-default.btn-lg Back

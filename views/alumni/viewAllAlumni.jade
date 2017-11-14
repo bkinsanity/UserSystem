@@ -1,13 +1,13 @@
-extends layout
+extends ../layout
 
 block content
   h1.text-center All Alumni
-  form(method='get', action='/alumnis/create/alumni')
+  form(method='get', action='/alumni/create/alumni')
     .input-group
     span.input-group-btn
       input.btn.btn-success.pull-right(type='submit', value='Add New Alumni')
 
-  form(method='get', action='/alumnis/')
+  form(method='get', action='/alumni/')
     .form-group
     label Department
     input.form-control(name='department', type='text', placeholder='Enter the department you study')
@@ -15,7 +15,7 @@ block content
     label Graduate Year
     input.form-control(name='graduate_year', type='text', placeholder='Enter which year you graduated')
     h4
-      input(type='submit', value='Search').btn.btn-primary.btn-lg 
+      input(type='submit', value='Search').btn.btn-primary.btn-lg
 
   if (pages > 1)
     .pagination
@@ -29,7 +29,7 @@ block content
         div
           table
             thead
-              th(style="width:200px") Email 
+              th(style="width:200px") Email
               th(style="width:100px") Phone
               th(style="width:200px") Department
               th(style="width:100px") Graduate Year
@@ -37,10 +37,15 @@ block content
               tr
                 td #{alumni.email}
                 td #{alumni.phone_number}
-                td #{alumni.department}   
-                td #{alumni.graduate_year} 
-          form(action='/alumnis/destroy/#{alumni._id}', method='post')
-            input.btn.btn-danger.pull-right(type='submit', value='Delete')
-          form(action='/alumnis/#{alumni._id}', method='get')
-            input.btn.btn-success.pull-right(type='submit', value='Edit')
+                td #{alumni.department}
+                td #{alumni.graduate_year}
+          if (user.isSuperUser)
+            form(action='/alumni/destroy/#{alumni._id}', method='post')
+              input.btn.btn-danger.pull-right(type='submit', value='Delete')
 
+          if (user.isSuperUser)
+            form(action='/alumni/#{alumni._id}', method='get')
+              input.btn.btn-success.pull-right(type='submit', value='Edit')
+          else
+            form(action='/alumni/#{alumni._id}', method='get')
+              input.btn.btn-success.pull-right(type='submit', value='View Detail')

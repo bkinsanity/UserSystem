@@ -17,20 +17,22 @@ html(lang='en')
         .navbar-collapse.collapse
           ul.nav.navbar-nav
             if user
-             li(class=(title == 'Members' ? 'active' : ''))
-               a(href='/alumnis') 校友資料庫
+              li(class=(title == 'Members' ? 'active' : ''))
+                a(href='/update') update
+              li(class=(title == 'Members' ? 'active' : ''))
+                a(href='/alumni') 校友資料庫
             if !user
-             li(class=(title == 'Register' ? 'active' : ''))
-               a(href='/users/register') Register
-             li(class=(title == 'Login' ? 'active' : ''))
-               a(href='/users/login') Login
+              li(class=(title == 'Register' ? 'active' : ''))
+                a(href='/users/register') Register
+              li(class=(title == 'Login' ? 'active' : ''))
+                a(href='/users/login') Login
           ul.nav.navbar-nav.navbar-right
-           if user
-            li
-               a(href='/users/logout') Logout
+            if user
+              li
+                a(href='/users/logout') Logout
     .container
      != messages()
      block content
-     
+
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
     script(src='javascripts/bootstrap.js')

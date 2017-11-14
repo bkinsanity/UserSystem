@@ -8,6 +8,7 @@ var Router = express.Router();
 Router.get('/', ensureAuthenticated, Alumni.all);
 Router.get('/:id', ensureAuthenticated, Alumni.viewOne);
 Router.get('/create/alumni', ensureAuthenticated, Alumni.createForm);
+Router.get('/update/alumni', ensureAuthenticated, Alumni.update);
 Router.post('/create', ensureAuthenticated, Alumni.create);
 Router.post('/destroy/:id', ensureAuthenticated, Alumni.destroy);
 Router.post('/edit/:id', ensureAuthenticated, Alumni.edit);

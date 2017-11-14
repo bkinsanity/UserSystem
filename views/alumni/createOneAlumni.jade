@@ -1,0 +1,50 @@
+extends ../layout
+
+block content
+	form(method='post', action='/alumni/create' )
+		.form-group
+		label 中文姓名
+		input.form-control(name='chinese_name', type='text', placeholder='Enter Name')
+		.form-group
+		label 英文姓名
+		input.form-control(name='english_name', type='text', placeholder='Enter Name')
+		.form-group
+		label Email
+		input.form-control(name='email', type='email', placeholder='Enter Email')
+		.form-group
+		label 性別
+		h6
+		select(name='gender')
+			- repeation=['男', '女']
+			each item in repeation
+					option #{item}
+
+		.form-group
+		label 畢業清華
+		h6
+		select(name='place')
+			- repeation=['北京', '新竹']
+			each item in repeation
+					option #{item}
+
+		.form-group
+		label 系所
+		h6
+		select(name="department")
+			each option in department_list
+					option #{option}
+
+		.form-group
+		label 畢業年份
+		h6
+		select(name="graduate_year")
+			each option in year_list
+					option #{option}
+
+		.form-group
+		label 電話
+		input.form-control(name='phone_number', type='text', placeholder='Enter your phone number')
+
+		h1
+		input(type='submit', value='Create New Alumni').btn.btn-primary.btn-lg
+		a(href='/alumni').btn.btn-default.btn-lg Back
